@@ -11,9 +11,3 @@
   --color-grayish-blue: hsl(229, 8%, 60%);
   --color-very-dark-blue: hsl(229, 31%, 21%);
 }
-
-/* @layer components {
-  .active {
-    @apply after:scale-100;
-  }
-} */

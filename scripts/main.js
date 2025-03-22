@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   hamburgerMenuToggler();
   featuresTabToggler();
+  subscribeFormValidation();
 });
 
 const hamburgerMenuToggler = () => {
@@ -10,14 +11,23 @@ const hamburgerMenuToggler = () => {
 
   const handleClickHamburgerButton = () => {
     hamburgerButton.setAttribute("aria-expanded", true);
-    hamburgerMenuElement.classList.add("opacity-100", "translate-x-0");
+    hamburgerMenuElement.classList.add("opacity-100", "translate-x-0", "flex");
     hamburgerMenuElement.classList.remove("opacity-0", "-translate-x-full");
+
+    setTimeout(() => {
+      hamburgerMenuElement.classList.remove("none");
+    }, 300);
   };
 
   const handleClickCloseButton = () => {
     hamburgerButton.setAttribute("aria-expanded", false);
     hamburgerMenuElement.classList.remove("opacity-100", "translate-x-0");
     hamburgerMenuElement.classList.add("opacity-0", "-translate-x-full");
+
+    setTimeout(() => {
+      hamburgerMenuElement.classList.remove("flex");
+      hamburgerMenuElement.classList.add("none");
+    }, 300);
   };
 
   hamburgerButton.addEventListener("click", handleClickHamburgerButton);
@@ -55,42 +65,38 @@ const featuresTabToggler = () => {
       isTabContent(name);
     });
   });
+};
 
-  //   const simpleBookmarkButton = document.getElementById("simple-bookmark-button");
-  //   const speedySearchingButton = document.getElementById("speedy-searching-button");
-  //   const easySharingButton = document.getElementById("easy-sharing-button");
-  //   const simpleBookmarkContent = document.getElementById("simple-bookmark-content");
-  //   const speedySearchingContent = document.getElementById("speedy-searching-content");
-  //   const easySharingContent = document.getElementById("easy-sharing-content");
+const subscribeFormValidation = () => {
+  const subscribeForm = document.getElementById("subscribe-form");
+  const emailInput = document.getElementById("email");
+  const errorIcon = document.getElementById("error-icon");
+  const errorMessage = document.getElementById("error-message");
 
-  //   const resetActive = () => {
-  //     simpleBookmarkButton.classList.remove("after:scale-100");
-  //     speedySearchingButton.classList.remove("after:scale-100");
-  //     easySharingButton.classList.remove("after:scale-100");
-  //     simpleBookmarkButton.classList.add("after:scale-0");
-  //     speedySearchingButton.classList.add("after:scale-0");
-  //     easySharingButton.classList.add("after:scale-0");
-  //   };
+  const validateEmail = () => {
+    if (!emailInput.checkValidity()) {
+      errorIcon.classList.remove("hidden");
+      errorMessage.classList.remove("hidden");
+      emailInput.classList.add("outline-0", "border-4", "border-soft-red", "mb-8");
+      errorIcon.classList.add("block");
+      errorMessage.classList.add("block");
+      return false;
+    } else {
+      errorIcon.classList.add("hidden");
+      errorMessage.classList.add("hidden");
+      emailInput.classList.remove("outline-0", "border-4", "border-soft-red", "mb-8");
+      errorIcon.classList.remove("block");
+      errorMessage.classList.remove("block");
+      return true;
+    }
+  };
 
-  //   const handleClickSimpleBookmarkButton = () => {
-  //     resetActive();
-  //     simpleBookmarkButton.classList.remove("after:scale-0");
-  //     simpleBookmarkButton.classList.add("after:scale-100");
-  //   };
-
-  //   const handleClickSpeedySearchingButton = () => {
-  //     resetActive();
-  //     speedySearchingButton.classList.remove("after:scale-0");
-  //     speedySearchingButton.classList.add("after:scale-100");
-  //   };
-
-  //   const handleClickEasySharingButton = () => {
-  //     resetActive();
-  //     easySharingButton.classList.remove("after:scale-0");
-  //     easySharingButton.classList.add("after:scale-100");
-  //   };
-
-  //   simpleBookmarkButton.addEventListener("click", handleClickSimpleBookmarkButton);
-  //   speedySearchingButton.addEventListener("click", handleClickSpeedySearchingButton);
-  //   easySharingButton.addEventListener("click", handleClickEasySharingButton);
+  emailInput.addEventListener("input", (e) => {
+    if (!validateEmail()) {
+      e.preventDefault();
+    }
+  });
+  subscribeForm.addEventListener("submit", () => {
+    validateEmail();
+  });
 };
